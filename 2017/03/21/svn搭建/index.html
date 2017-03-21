@@ -3,21 +3,35 @@
 <head>
   <meta charset="utf-8">
   
-  <title>张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
+  <title>svn搭建 | 张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
 
   
   <meta name="author" content="张秀峰">
   
 
   
+  <meta name="description" content="本文主要为svn的安装以及配置。
+1、检查已安装版本检查是否已安装包
+1rpm -qa subversion
+如想卸载
+1yum remove subversion
+查看svn进程
+1ps -ef|grep svnserve
+2、安装安装svn
+1yum install subversion
+安装版">
+  
 
+  
+  
+  <meta name="keywords" content="linux,svn">
   
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  
+  <meta property="og:title" content="svn搭建"/>
 
   <meta property="og:site_name" content="张秀峰的博客"/>
 
@@ -54,12 +68,11 @@
 </header>
 
     <main class="site-main posts-loop">
-    
-  <article>
+    <article>
 
   
     
-    <h3 class="article-title"><a href="/2017/03/21/svn搭建/"><span>svn搭建</span></a></h3>
+    <h3 class="article-title"><span>svn搭建</span></h3>
     
   
 
@@ -148,198 +161,35 @@
     </div>
 
     
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/03/21/svn搭建/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
   </div>
 </article>
 
-
-
-  <article>
-
   
-    
-    <h3 class="article-title"><a href="/2016/05/06/Linux基础操作/"><span>Linux基础操作</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/05/06/Linux基础操作/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-05-06T07:04:32.000Z">
-          2016-05-06
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <blockquote>
-<p>Linux中一切皆文件</p>
-</blockquote>
-<p>管理员进入后提示符为”#”,普通用户为”$”;</p>
-<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>Tab    &nbsp;&nbsp;&nbsp;自动补齐</p>
-<p>\    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;反斜杠强制换行</p>
-<p>Ctrl    </p>
-<p>+u 清空至行首</p>
-<p>+k 清空至行尾</p>
-<p>+c 终止当前命令</p>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p><strong>hostname    &nbsp;&nbsp;&nbsp;查看主机完整名称</strong></p>
-<p><strong>ifconfig    &nbsp;&nbsp;&nbsp;查看以太网卡的ip地址</strong></p>
-<p><strong>pwd(print working directory)    &nbsp;&nbsp;&nbsp;查看当前路径</strong></p>
-<p><strong>sync    &nbsp;&nbsp;&nbsp;将缓存区的文件写入磁盘，避免关机或重启数据丢失</strong></p>
-<p><strong>shutdown -h now (poweroff) (init 0) &nbsp;&nbsp;&nbsp;关机</strong></p>
-<p><strong>shutdown -r now (reboot) (init 6) &nbsp;&nbsp;&nbsp;重启</strong></p>
-<p><strong>shutdown -h +15 ‘host will be shutdown’ &nbsp;&nbsp;&nbsp;十五分钟后关机并留言</strong></p>
-<p><strong>shutdown -c &nbsp;&nbsp;&nbsp;取消关机</strong></p>
-<p><strong>cd(change directory)    &nbsp;&nbsp;&nbsp;切换目录</strong></p>
-<p><strong>date/hwcolock &nbsp;&nbsp;&nbsp;日期</strong></p>
-<p><strong>cal &nbsp;&nbsp;&nbsp;日历</strong></p>
-<p><strong>bc &nbsp;&nbsp;&nbsp;计算器</strong>(scale=4保留4位小数)</p>
-<p><strong>uname    &nbsp;&nbsp;&nbsp;查看系统构架以及内核信息</strong></p>
-<p>-a    显示全部</p>
-<p>-h    只显示内核信息</p>
-<p>(cat /etc/issue    查看当前系统)</p>
-<p><strong>ls(List)    &nbsp;&nbsp;&nbsp;查看目录</strong></p>
-<p>-l    以长格式显示</p>
-<p>-a    显示所有文件包括隐藏文件</p>
-<p>-d    显示目录本身属性</p>
-<p>-h    提供易懂容量单位</p>
-<p>-F     在每一个文件的末尾加上一个字符说明该文件的类型。”@”表示符号链接、”|”表示FIFOS、”/“表示目录、”=”表示套接字。</p>
-<p>-R    递归显示所有目录</p>
-<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><p><strong>mkdir &nbsp;&nbsp;&nbsp;创建文件夹</strong></p>
-<p>格式：mkdir [-p] 目录 ([递归]创建目录)</p>
-<p><strong>touch  &nbsp;&nbsp;&nbsp;新建空文件或更新文件时间戳</strong></p>
-<p><strong>ln &nbsp;&nbsp;&nbsp;创建文件连接（软连接）</strong></p>
-<p>格式：ln -s 源文件地址 连接文件路径</p>
-<p><strong>cp &nbsp;&nbsp;&nbsp;复制</strong></p>
-<p>格式：cp [选项] 源文件地址 目标路径</p>
-<p>-r    递归复制</p>
-<p>-f    强制覆盖，不提示</p>
-<p>-p    保持原文件属性不变</p>
-<p><strong>rm &nbsp;&nbsp;&nbsp;删除</strong></p>
-<p>格式：rm [选项] 目标路径</p>
-<p>-r    递归删除整个目录</p>
-<p>-f    强制删除不提示</p>
-<p><strong>mv &nbsp;&nbsp;&nbsp;移动</strong></p>
-<p>格式：mv [选项] 源文件地址 目标路径（若位置不变相当于改名）</p>
-<p><strong>cat &nbsp;&nbsp;&nbsp;查看全部 （不足：大文件显示不方便）</strong></p>
-<p>格式：cat [选项] 文件地址</p>
-<p>-n     在每行显示行号 (例：cat -n /etc/passwd    显示有多少个帐号)</p>
-<p><strong>more &nbsp;&nbsp;&nbsp;大文件阅读（不足：向前翻页不便捷）</strong></p>
-<p>enter 下翻一行</p>
-<p>空格 下翻一屏</p>
-<p>q 退出</p>
-<p>? 查看帮助</p>
-<p><strong>less &nbsp;&nbsp;&nbsp;大文件阅读</strong></p>
-<p>Pgup向前翻页</p>
-<p>Pgdu向后翻页</p>
-<p><strong>head/tail &nbsp;&nbsp;&nbsp;截取文件首/尾部分</strong></p>
-<p>格式：head/tail -n 数字 文件地址 （默认10行）</p>
-<p>结合使用实例：查看8到12行    head -n 12 file1.txt | tail -n 5</p>
-<font color="red">动态查看文件 tail -f 可用于查看报错等</font>
-
-<p><strong>wc &nbsp;&nbsp;&nbsp;文本统计</strong></p>
-<p>格式：wc [选项] 文件地址</p>
-<p>-l    计算文本总行数</p>
-<p>-w    计算单词个数</p>
-<p>-c    计算文件字节数</p>
-<p>-m    计算文件字符数</p>
-<p><strong>grep 输出包含查找字符串的行</strong></p>
-<p>格式：grep [选项] ‘查找条件’ 目标文件</p>
-<p>-i    忽略大小写</p>
-<p>-v    反转查找，查找不符合条件</p>
-<p>–color    突出查找条件</p>
-<p><em>查询条件双引号中指定条件</em></p>
-<p>^……    表示以……开始</p>
-<p>……$    表示以……结束</p>
-<p>^$    表示空行</p>
-<p><strong>zip &nbsp;&nbsp;&nbsp;压缩处理</strong></p>
-<p>格式：zip 压缩包名称 被压缩文件    （结合-r可打包目录）</p>
-<p><strong>unzip &nbsp;&nbsp;&nbsp;解压缩</strong></p>
-<p>格式：unzip -d 目标文件夹 压缩文件.zip</p>
-<p><strong>gzip/bzip2 &nbsp;&nbsp;&nbsp;linux压缩</strong></p>
-<p>格式：gzip/bzip -9 文件名    &nbsp;&nbsp;&nbsp;压缩</p>
-<p>gzip/bzip -d 文件名.gz/.bz格式 &nbsp;&nbsp;&nbsp;解压缩</p>
-<p><strong>tar &nbsp;&nbsp;&nbsp;归档工具</strong></p>
-<p>tar 选项 归档文件 源文件 &nbsp;&nbsp;&nbsp;制作归档</p>
-<p>tar 选项 归档文件 -C 目标目录 &nbsp;&nbsp;&nbsp;释放归档</p>
-<p>-c    创建.tar格式归档文件</p>
-<p>-x    解开.tar格式归档文件</p>
-<p>-C    解包时指定释放的目标文件夹</p>
-<p>-f    表示使用归档文件</p>
-<p>-z    调用gzip执行压缩或者解压缩</p>
-<p>-j    调用bzip2执行压缩或者解压缩</p>
-<p>-v    输出详细信息</p>
-<p>-t    列表查看包内文件</p>
-<p><strong>find &nbsp;&nbsp;&nbsp;精确查找文件</strong></p>
-<p>格式：find 查找范围 查找条件</p>
-<p>-name    按文件名称查找</p>
-<p>-size    按文件大小查找</p>
-<p>-mtime    按文件修改时间查找</p>
-<p>-type    按文件类型查找(f 普通文件,d 目录,l 连接文件,b 块设备文件,c 字符设备文件)</p>
-<p>实例：</p>
-<p>-name可使用通配符    find /etc -name “resol*.conf”</p>
-<p>-a 多条件同时满足    find /dev -type c -a -name “tty[1-3]”</p>
-<p>-o 多条件满足任意一个</p>
-<p>-size +/-大小        find /boot/ -size +2M</p>
-<p>-mtime +/-天数    在n天之前/之内修改</p>
-<h2 id="补充命令"><a href="#补充命令" class="headerlink" title="补充命令"></a>补充命令</h2><p><strong>xargs</strong></p>
-<p>实例：ps -ef|grep memcache|cut -c 9-15|xargs kill -9 关闭memcache相关所有程序</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/linux/">linux</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/05/06/Linux基础操作/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/21/svn搭建/" data-title="svn搭建" data-url="http://yoursite.com/2017/03/21/svn搭建/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"zhangxiufeng"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
 
 
 
 
-<nav class="pagination">
-  
-  
-</nav>
     </main>
 
     <footer class="site-footer">
