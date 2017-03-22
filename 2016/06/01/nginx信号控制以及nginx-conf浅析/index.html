@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx信号控制以及nginx.conf浅析 | 张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
+
+  
+  <meta name="author" content="张秀峰">
+  
+
+  
+  <meta name="description" content="信号控制规范：kill -控制码 进程号
+-QUIT    当前任务完成后关闭进程
+-HUP    改变配置文件，平滑重读配置文件。开启新进程读取配置文件后关闭当前任务完成后的进程
+-USR1    重读日志
+-USR2    平滑升级
+查看进程号
+1ps aux | grep nginx
+除了以上">
+  
+
+  
+  
+  <meta name="keywords" content="nginx">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="nginx信号控制以及nginx.conf浅析"/>
+
+  <meta property="og:site_name" content="张秀峰的博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="张秀峰的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">张秀峰的博客</a>
+    </h1>
+    <p class="site-description">Zhang Xiufeng&#39;s Blog</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>nginx信号控制以及nginx.conf浅析</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/01/nginx信号控制以及nginx-conf浅析/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-01T03:22:18.000Z">
+          2016-06-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="信号控制"><a href="#信号控制" class="headerlink" title="信号控制"></a>信号控制</h3><p>规范：kill -控制码 进程号</p>
+<p>-QUIT    当前任务完成后关闭进程</p>
+<p>-HUP    改变配置文件，平滑重读配置文件。开启新进程读取配置文件后关闭当前任务完成后的进程</p>
+<p>-USR1    重读日志</p>
+<p>-USR2    平滑升级</p>
+<p><em>查看进程号</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps aux | grep nginx</div></pre></td></tr></table></figure>
+<p>除了以上使用kill命令更常用的是进入nginx文件夹后使用sbin/nginx文件操作nginx的开启关闭重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./sbin/nginx -s reload	//重启</div><div class="line">./sbin/nginx -s start	//开启</div><div class="line">./sbin/nginx -s stop		//关闭</div></pre></td></tr></table></figure>
+<h3 id="nginx-conf结构浅析"><a href="#nginx-conf结构浅析" class="headerlink" title="nginx.conf结构浅析"></a>nginx.conf结构浅析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//全局区</div><div class="line">worker_processes 1; // 有1个工作的子进程,可以自行修改,但太大无益,因为要争夺CPU,一般设置为 CPU数*核数</div><div class="line"></div><div class="line">Event &#123;</div><div class="line">// 一般是配置nginx连接的特性</div><div class="line">// 如1个word能同时允许多少连接</div><div class="line"> worker_connections  1024; // 这是指 一个子进程最大允许连1024个连接</div><div class="line">&#125;</div><div class="line"></div><div class="line">http &#123;  //这是配置http服务器的主要段</div><div class="line">	#log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">	#                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">	#                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">     Server1 &#123; // 这是虚拟主机段</div><div class="line">       </div><div class="line">            Location &#123;  //定位,把特殊的路径或文件再次定位 ,如image目录单独处理</div><div class="line">            &#125;             /// 如.php单独处理</div><div class="line"></div><div class="line">     &#125;</div><div class="line"></div><div class="line">     Server2 &#123;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="配置虚拟机实例"><a href="#配置虚拟机实例" class="headerlink" title="配置虚拟机实例"></a>配置虚拟机实例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 80;  #监听端口</div><div class="line">    server_name z.com; #监听域名,也可以设置成ip，访问不同目录</div><div class="line">    access_log  logs/z.com.access.log  main;	#每个虚拟主机可以单存一个日志文件 main为上面定义文件类型</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">            root /var/www/a.com;   #根目录定位</div><div class="line">            index index.html;	#首先访问文件</div><div class="line">    &#125;</div><div class="line">    #php处理</div><div class="line">    location ~ \.php$ &#123;</div><div class="line">            root html;</div><div class="line">            fastcgi_pass 127.0.0.1:9000;</div><div class="line">            fastcgi_index index.php;</div><div class="line">            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</div><div class="line">            include        fastcgi_params;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/nginx/">nginx</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/06/01/nginx信号控制以及nginx-conf浅析/" data-title="nginx信号控制以及nginx.conf浅析" data-url="http://yoursite.com/2016/06/01/nginx信号控制以及nginx-conf浅析/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"zhangxiufeng"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 张秀峰
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

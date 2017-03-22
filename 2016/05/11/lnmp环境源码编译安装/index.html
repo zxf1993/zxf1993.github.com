@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>lnmp环境源码编译安装 | 张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
+
+  
+  <meta name="author" content="张秀峰">
+  
+
+  
+  <meta name="description" content="编译安装lnmp环境中需要各种依赖，下面是总结好的依赖包
+1yum -y install make gcc gcc-c++ gcc-g77 flex bison file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel">
+  
+
+  
+  
+  <meta name="keywords" content="linux,nginx,mysql,php">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="lnmp环境源码编译安装"/>
+
+  <meta property="og:site_name" content="张秀峰的博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="张秀峰的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">张秀峰的博客</a>
+    </h1>
+    <p class="site-description">Zhang Xiufeng&#39;s Blog</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>lnmp环境源码编译安装</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/05/11/lnmp环境源码编译安装/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-05-11T06:11:45.000Z">
+          2016-05-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>编译安装lnmp环境中需要各种依赖，下面是总结好的依赖包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install make gcc gcc-c++ gcc-g77 flex bison file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel libpng10 libpng10-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glib2 glib2-devel bzip2 bzip2-devel libevent libevent-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel gettext gettext-devel ncurses-devel gmp-devel pspell-devel unzip libcap lsof</div></pre></td></tr></table></figure>
+<h3 id="nginx编译安装"><a href="#nginx编译安装" class="headerlink" title="nginx编译安装"></a>nginx编译安装</h3><blockquote>
+<p>nginx官网  <a href="http://nginx.org" target="_blank" rel="external">http://nginx.org</a></p>
+</blockquote>
+<ul>
+<li>下载源码包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://nginx.org/download/nginx-1.10.0.tar.gz</div></pre></td></tr></table></figure>
+<ul>
+<li>解包</li>
+</ul>
+<p>建议释放到/usr/src/目录，标准位置/usr/src/软件名-版本号/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxf nginx-1.10.0.tar.gz -C /usr/src/</div></pre></td></tr></table></figure>
+<ul>
+<li>安装配置&amp;&amp;编译</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /usr/src/nginx-1.10.0.tar.gz/</div></pre></td></tr></table></figure>
+<p>查看配置帮助,配置帮助可以让你快速了解你所需要的配置项如何填写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --help</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/usr/local/nginx\		//配置安装目录</div><div class="line"> --with-config-file-path=/etc/nginx 			//配置文件存放目录</div></pre></td></tr></table></figure>
+<ul>
+<li>安装</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<p>安装成功后进入nginx目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /usr/local/nginx</div></pre></td></tr></table></figure>
+<p>启动nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./sbin/nginx -s start</div></pre></td></tr></table></figure>
+<p><strong><a href="http://blog.zhangxiufeng.cn/tags/nginx/" target="_blank" rel="external">nginx配置以及深入的文章点击这里</a></strong></p>
+<h3 id="mysql编译安装"><a href="#mysql编译安装" class="headerlink" title="mysql编译安装"></a>mysql编译安装</h3><blockquote>
+<p>mysql官网  <a href="https://www.mysql.com" target="_blank" rel="external">https://www.mysql.com</a></p>
+</blockquote>
+<ul>
+<li>创建mysql群组和用户</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">groupadd mysql</div></pre></td></tr></table></figure>
+<p>创建一个用户，不允许登陆和不创主目录，并且加入到mysql组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd -s /sbin/nologin -g mysql -M mysql</div></pre></td></tr></table></figure>
+<ul>
+<li>安装cmake</li>
+</ul>
+<p>mysql5.5以后需要用cmake编译</p>
+<p>按照nginx编译安装的顺序安装cmake就可以</p>
+<ul>
+<li>解包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar zxf mysql-5.7.12.tar.gz -C /usr/src/</div><div class="line">cd /usr/src/mysql-5.7.12</div></pre></td></tr></table></figure>
+<ul>
+<li>编译</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">cmake \</div><div class="line">-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \</div><div class="line">-DMYSQL_DATADIR=/usr/local/mysql/data \</div><div class="line">-DSYSCONFDIR=/etc \</div><div class="line">-DWITH_MYISAM_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1 \</div><div class="line">-DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock \</div><div class="line">-DMYSQL_TCP_PORT=3306 \</div><div class="line">-DENABLED_LOCAL_INFILE=1 \</div><div class="line">-DWITH_PARTITION_STORAGE_ENGINE=1 \</div><div class="line">-DEXTRA_CHARSETS=all \</div><div class="line">-DDEFAULT_CHARSET=utf8 \</div><div class="line">-DDEFAULT_COLLATION=utf8_general_ci \</div><div class="line">-DWITH_DEBUG=0 \</div><div class="line">-DWITH_SSL=system</div></pre></td></tr></table></figure>
+<ul>
+<li>安装</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<ul>
+<li>添加权限</li>
+</ul>
+<p>给mysql文件夹添加写入权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +w /usr/local/mysql</div></pre></td></tr></table></figure>
+<p>把mysql文件夹所有者改为mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chown -R mysql:mysql /usr/local/mysql</div></pre></td></tr></table></figure>
+<ul>
+<li>修改my.cnf</li>
+</ul>
+<p>mysql启动时会按一定次序搜索my.cnf  先/etc下然后是安装目录下</p>
+<p>备份一份/etc中的文件后,复制配置文件到/etc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mv /etc/my.cnf /etc/my.cnf.bak</div><div class="line">cp support-files/my-default.cnf /etc/my.cnf</div></pre></td></tr></table></figure>
+<ul>
+<li>初始化配置（注意文件位置）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql</div></pre></td></tr></table></figure>
+<ul>
+<li>配置service脚本</li>
+</ul>
+<p>service脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp support-files/mysql.server /etc/init.d/mysqld</div></pre></td></tr></table></figure></p>
+<p>加入执行权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +x /etc/init.d/mysqld</div></pre></td></tr></table></figure></p>
+<p>添加服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig --add mysqld</div></pre></td></tr></table></figure></p>
+<p>开机启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig mysqld on</div></pre></td></tr></table></figure></p>
+<ul>
+<li>设置PATH</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div></pre></td></tr></table></figure>
+<p>文件末尾添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PATH=/usr/local/mysql/bin:$PATH</div><div class="line">export PATH</div></pre></td></tr></table></figure>
+<p>使配置生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source /etc/profile</div></pre></td></tr></table></figure>
+<ul>
+<li>配置mysql密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqladmin -uroot -p &apos;你的密码&apos;</div></pre></td></tr></table></figure>
+<ul>
+<li>配置远程访问</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -p</div><div class="line">use mysql</div><div class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos;IDENTIFIED BY &apos;password&apos; WITH GRANT OPTION;</div></pre></td></tr></table></figure>
+<p>%可替换为ip地址，为%时不限制ip访问，root可替换为其他用户，password为用户密码。</p>
+<h3 id="PHP编译安装"><a href="#PHP编译安装" class="headerlink" title="PHP编译安装"></a>PHP编译安装</h3><blockquote>
+<p>PHP官网  <a href="http://php.net" target="_blank" rel="external">http://php.net</a></p>
+</blockquote>
+<ul>
+<li>下载解包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://cn2.php.net/distributions/php-5.6.30.tar.gz</div><div class="line">tar zxf php-5.6.30.tar.gz -C /usr/src/</div></pre></td></tr></table></figure>
+<ul>
+<li>安装配置&amp;&amp;编译安装</li>
+</ul>
+<p>php的扩展比较多，如果知道需要什么扩展可以在安装配置中先配置好，如果是安装后需要添加扩展也可以。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">./configure \</div><div class="line">--prefix=/usr/local/php \</div><div class="line">--with-mysql=/usr/local/mysql/ \</div><div class="line">--with-curl=curl \</div><div class="line">--with-mysqli \</div><div class="line">--enable-fpm \</div><div class="line">--disable-fileinfo</div></pre></td></tr></table></figure>
+<p>按我最低的要求，只连接了mysql，然后扩展了curl和mysqli。fpm是nginx服务器中php需要加装的配置，如果是apache则需要替换成<strong>–with-apxs2=apache安装目录/bin/apxs</strong>。</p>
+<p><strong>–disable-fileinfo</strong>这个配置是针对小内存服务器编译使用的（高性能土豪请忽略）。</p>
+<p>最后编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make&amp;&amp;make install</div></pre></td></tr></table></figure>
+<ul>
+<li>安装完成后的配置</li>
+</ul>
+<p>复制配置文件到安装好的php并修改时区(大概在900行左右 date.timezone=PRC)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp php.ini-production /usr/local/php/lib/php.ini</div></pre></td></tr></table></figure></p>
+<p>service脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm</div></pre></td></tr></table></figure></p>
+<p>加入执行权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +x /etc/init.d/php-fpm</div></pre></td></tr></table></figure></p>
+<p>添加服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig --add php-fpm</div></pre></td></tr></table></figure></p>
+<p>开机启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig php-fpm on</div></pre></td></tr></table></figure></p>
+<p>配置php-fpm<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /usr/local/php/etc</div><div class="line">cp php-fpm.conf.default php-fpm.conf</div><div class="line">vim php-fpm.conf 		(25行前的注释符去掉)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>PHP安装完毕状态下添加扩展</li>
+</ul>
+<p>最近在用memcache时添加了一次扩展，所以用这个当作例子介绍下。</p>
+<blockquote>
+<p>memcache扩展下载地址<a href="http://pecl.php.net/package/memcache" target="_blank" rel="external">http://pecl.php.net/package/memcache</a></p>
+</blockquote>
+<p>下载解压后进入扩展包文件夹，会发现没有configure文件，这时需要phpize命令(php安装目录/bin/phpize)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/php/bin/phpize</div></pre></td></tr></table></figure>
+<p>出现configure文件后和编译安装其他软件一样的流程,只是在安装配置中配置php-config文件地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./configure --with-php-config=/usr/local/php/bin/php-config</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<p>安装完毕后会显示编译位置，复制编译位置加到php.ini。（可查找.so，添加到extension最下面）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /usr/local/php/lib/php.ini</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">extension=/usr/local/php/lib/php/extensions/no-debug-non-zts-20131226/memcache.so</div></pre></td></tr></table></figure>
+<p>重启php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service php-fpm reload</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/linux/">linux</a><a href="/tags/nginx/">nginx</a><a href="/tags/mysql/">mysql</a><a href="/tags/php/">php</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/05/11/lnmp环境源码编译安装/" data-title="lnmp环境源码编译安装" data-url="http://yoursite.com/2016/05/11/lnmp环境源码编译安装/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"zhangxiufeng"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 张秀峰
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
