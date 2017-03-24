@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Location配置以及rewrite重写 | 张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
+
+  
+  <meta name="author" content="张秀峰">
+  
+
+  
+  <meta name="description" content="nginx配置中的Location
+location分为三种匹配机制
+
+123location = patt &amp;#123;&amp;#125; #精准匹配location patt&amp;#123;&amp;#125;  #一般匹配location ~ patt&amp;#123;&amp;#125; #正则匹配
+
+匹配机制
+
+先精准匹">
+  
+
+  
+  
+  <meta name="keywords" content="nginx">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Location配置以及rewrite重写"/>
+
+  <meta property="og:site_name" content="张秀峰的博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="张秀峰的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">张秀峰的博客</a>
+    </h1>
+    <p class="site-description">Zhang Xiufeng&#39;s Blog</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Location配置以及rewrite重写</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/24/Location配置以及rewrite重写/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-24T06:35:28.000Z">
+          2017-03-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="nginx配置中的Location"><a href="#nginx配置中的Location" class="headerlink" title="nginx配置中的Location"></a>nginx配置中的Location</h3><ul>
+<li>location分为三种匹配机制</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location = patt &#123;&#125; #精准匹配</div><div class="line">location patt&#123;&#125;  #一般匹配</div><div class="line">location ~ patt&#123;&#125; #正则匹配</div></pre></td></tr></table></figure>
+<ul>
+<li>匹配机制</li>
+</ul>
+<p>先精准匹配，如果匹配成功就直接返回结果，如果没有↓</p>
+<p>进行一般匹配，记录匹配最长的结果，如果没有正则匹配就返回结果，如果有正则匹配↓</p>
+<p>按location正则匹配先后的顺序进行匹配，一旦匹配成功直接返回结果</p>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">location =/index.html &#123;</div><div class="line">        root z.com;</div><div class="line">        index index.html;</div><div class="line">&#125;</div><div class="line">location =/ &#123;</div><div class="line">        root html;</div><div class="line">        index index.html;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果直接访问域名或ip地址，按上面配置的匹配顺序为：精准匹配到=/中，这时跳转ip/index.html再次匹配，匹配到=/index.html，最后访问到了z.com目录下。</p>
+<h3 id="rewrite重写"><a href="#rewrite重写" class="headerlink" title="rewrite重写"></a>rewrite重写</h3><ul>
+<li>重写中用到的指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (条件) &#123;&#125;	#设定条件,再进行重写 </div><div class="line">set			#设置变量</div><div class="line">return		#返回状态码 </div><div class="line">break		#跳出rewrite</div><div class="line">rewrite		#重写</div></pre></td></tr></table></figure>
+<ul>
+<li>if语法格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if空格(条件) &#123;</div><div class="line">    重写模式</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>条件的三种写法</li>
+</ul>
+<p>1: “=”来判断相等, 用于字符串比较</p>
+<p>2: “~” 用正则来匹配(此处的正则区分大小写)，~* 不区分大小写的正则</p>
+<p>3: -f，-d，-e来判断是否为文件,为目录,是否存在.</p>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">if ($remote_addr = 192.168.1.100) &#123;</div><div class="line">	return 403;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if ($http_user_agent ~ MSIE) &#123;</div><div class="line">	rewrite ^.*$ /ie.htm;</div><div class="line">	break; #(不break会循环重定向)</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (!-e $document_root$fastcgi_script_name) &#123;</div><div class="line">	rewrite ^.*$ /404.html break;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>break使用，以 xx.com/dsafsd.html这个不存在页面为例,我们观察访问日志，日志中显示的访问路径,依然是GET /dsafsd.html HTTP/1.1。因为服务器内部的rewrite和302跳转不一样。跳转的话URL都变了，变成重新http请求404.html, 而内部rewrite, 上下文没变,就是说 fastcgi_script_name 仍然是 dsafsd.html。因此 会循环重定向，这时需要break停止。</p>
+<ul>
+<li>set的应用</li>
+</ul>
+<p>使用set方法也可以完成break相同功能。set可以用来达到多条件判断时作标志用，达到apache下的rewrite_condition的效果。</p>
+<p>如下: 判断IE并重写,且不用break; 我们用set变量来达到目的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if ($http_user_agent ~* msie) &#123;</div><div class="line">    set $isie 1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if ($fastcgi_script_name = ie.html) &#123;</div><div class="line">    set $isie 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if ($isie 1) &#123;</div><div class="line">    rewrite ^.*$ ie.html;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/nginx/">nginx</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/24/Location配置以及rewrite重写/" data-title="Location配置以及rewrite重写" data-url="http://yoursite.com/2017/03/24/Location配置以及rewrite重写/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"zhangxiufeng"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 张秀峰
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
