@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>gzip压缩和nignx缓存设置 | 张秀峰的博客 | Zhang Xiufeng&#39;s Blog</title>
+
+  
+  <meta name="author" content="张秀峰">
+  
+
+  
+  <meta name="description" content="gzip压缩
+原理
+
+浏览器—-&amp;gt; 请求—-&amp;gt; 声明可以接受 gzip压缩 或 deflate压缩 或compress 或 sdch压缩 ↓
+服务器—-&amp;gt;回应—-&amp;gt;把内容用gzip方式压缩—-&amp;gt;发给浏览器 ↓
+接收gzip压缩—–&amp;gt;解码gzip—–&amp;gt;内容浏览">
+  
+
+  
+  
+  <meta name="keywords" content="nginx">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="gzip压缩和nignx缓存设置"/>
+
+  <meta property="og:site_name" content="张秀峰的博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="张秀峰的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">张秀峰的博客</a>
+    </h1>
+    <p class="site-description">Zhang Xiufeng&#39;s Blog</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>gzip压缩和nignx缓存设置</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/28/gzip压缩和nignx缓存设置/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-28T08:50:49.000Z">
+          2016-06-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="gzip压缩"><a href="#gzip压缩" class="headerlink" title="gzip压缩"></a>gzip压缩</h3><ul>
+<li>原理</li>
+</ul>
+<p>浏览器—-&gt; 请求—-&gt; 声明可以接受 gzip压缩 或 deflate压缩 或compress 或 sdch压缩 ↓</p>
+<p>服务器—-&gt;回应—-&gt;把内容用gzip方式压缩—-&gt;发给浏览器 ↓</p>
+<p>接收gzip压缩—–&gt;解码gzip—–&gt;内容浏览</p>
+<p>http协议的角度看:请求头声明 <strong>acceopt-encoding: gzip deflate sdch</strong> 是指压缩算法,其中sdch是google倡导的一种压缩方式,目前支持的服务器尚不多。</p>
+<ul>
+<li>gzip配置的常用参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">gzip on|off;				#是否开启gzip</div><div class="line">gzip_buffers 32 4K| 16 8K	#缓冲(压缩在内存中缓冲几块? 每块多大?)</div><div class="line">gzip_comp_level [1-9]		#推荐6 压缩级别(级别越高,压的越小,越浪费CPU计算资源)</div><div class="line">gzip_disable				#正则匹配UA 什么样的Uri不进行gzip</div><div class="line">gzip_min_length 200			#开始压缩的最小长度(再小就不要压缩了,意义不在)</div><div class="line">gzip_http_version 1.0|1.1	#开始压缩的http协议版本(可以不设置,目前几乎全是1.1协议)</div><div class="line">gzip_proxied				#设置请求者代理服务器,该如何缓存内容</div><div class="line">gzip_types text/plain  application/xml	#对哪些类型的文件用压缩 如txt,xml,html ,css.(conf/mime.types有类型对比)</div><div class="line">gzip_vary on|off			#是否传输gzip压缩标志</div></pre></td></tr></table></figure>
+<p><strong>注意事项</strong></p>
+<p>1、图片/mp3这样的二进制文件,不必压缩。</p>
+<p>2、因为压缩率比较小, 比如100-&gt;80字节,而且压缩也是耗费CPU资源的比较小的文件不必压缩。</p>
+<h3 id="缓存设置"><a href="#缓存设置" class="headerlink" title="缓存设置"></a>缓存设置</h3><p>对于网站的图片,尤其是新闻站, 图片一旦发布, 改动的可能是非常小的。我们希望，能否在用户访问一次后, 图片缓存在用户的浏览器端,且时间比较长的缓存。用nginx的expires设置，可以完成这一诉求。</p>
+<p>在location中添加expires参数。格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">expires 30s;</div><div class="line">expires 30m;</div><div class="line">expires 2h;</div><div class="line">expires 30d;</div></pre></td></tr></table></figure>
+<p><strong>注意:服务器的日期要准确,如果服务器的日期落后于实际日期,可能导致缓存失效</strong></p>
+<ul>
+<li>原理</li>
+</ul>
+<p>服务器响应文件内容时，同时响应etag标签(内容的签名，内容一变，他也变)和 last_modified_since 2个标签值。浏览器下次去请求时，头信息发送这两个标签，服务器检测文件有没有发生变化。如无，直接头信息返回etag，last_modified_since。浏览器知道内容无改变,于是直接调用本地缓存。<br>这个过程，也请求了服务器,但是传着的内容极少。对于变化周期较短的，如静态html、js、css，比较适于用这个方式。</p>
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#图片缓存一天</div><div class="line"></div><div class="line">location ~ \.(jpeg|png|bmp|jpg|gif)$ &#123;</div><div class="line">	expires 1d;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/nginx/">nginx</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/06/28/gzip压缩和nignx缓存设置/" data-title="gzip压缩和nignx缓存设置" data-url="http://yoursite.com/2016/06/28/gzip压缩和nignx缓存设置/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"zhangxiufeng"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 张秀峰
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
